@@ -6,8 +6,16 @@ import uvicorn
 from middlewares import error
 from services.faceService import deepFaceServiceInstance
 from datetime import datetime
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.add_middleware(error.ErrorHandlingMiddleware)
 app.include_router(faceRouter, prefix="/api", tags=["api"])
 @app.get("/")
